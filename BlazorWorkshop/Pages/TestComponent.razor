@@ -1,0 +1,17 @@
+﻿@inherits TestComponentBase
+
+<select size="4" style="width : 100%" @onchange="CustomerSelected">
+  @foreach (var customer in Customers)
+  {
+    <option value="@customer.CustomerId">@customer.Name</option>
+  }
+</select>
+
+
+@if (SelectedCustomer != null)
+{
+  <span style="color : red">@SelectedCustomer.Name&nbsp;selected.</span>
+  <br />
+  <br />
+  <input @bind="@SelectedCustomer.Name" @bind:event="oninput"/>
+}
