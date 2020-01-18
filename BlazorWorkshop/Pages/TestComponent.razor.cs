@@ -13,9 +13,14 @@ namespace BlazorWorkshop.Pages
     public IList<Customer> Customers { get; set; } = new List<Customer> { };
 
     [Parameter]
+    public Customer SelectedCustomer { get; set; }
+
+    [Parameter]
     public EventCallback<Customer> CustomerSelectedEvent { get; set; }
 
-    protected Customer SelectedCustomer;
+    [Parameter]
+    public EventCallback<int> CustomerResetEvent { get; set;
+    }
     protected string DisplayMessage = "";
 
     protected async Task CustomerSelected(ChangeEventArgs args)
@@ -31,5 +36,12 @@ namespace BlazorWorkshop.Pages
       }
     }
 
+    protected async Task ResetButtonClicked()
+    {
+      if ( CustomerResetEvent.HasDelegate)
+      {
+        await CustomerResetEvent.InvokeAsync(SelectedCustomer.CustomerId);
+      }
+    }
   }
 }

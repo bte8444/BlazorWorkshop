@@ -10,8 +10,9 @@
 
 @if (SelectedCustomer != null)
 {
-  <span style="color : red">@SelectedCustomer.Name&nbsp;selected.</span>
+  @*<span style="color : red">@SelectedCustomer.Name&nbsp;selected.</span>
   <br />
-  <br />
+  <br />*@
   <input @bind="@SelectedCustomer.Name" @bind:event="oninput"/>
+  <button @onclick="ResetButtonClicked">Reset</button>
 }

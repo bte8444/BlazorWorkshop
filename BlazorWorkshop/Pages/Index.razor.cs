@@ -1,8 +1,7 @@
 ﻿using BlazorWorkshop.Code;
+using BlazorWorkshop.Data;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlazorWorkshop.Pages
@@ -11,37 +10,31 @@ namespace BlazorWorkshop.Pages
   {
     protected List<Customer> Customers = new List<Customer>();
     protected string DisplayMessage = "";
+    protected Customer SelectedCustomer;
+
+    [Inject]
+    protected ICustomerService customerService { get; set; }
 
     protected void CustomerSelected(Customer customer)
     {
+      SelectedCustomer = customer;
       DisplayMessage = string.Format("Event Raised. Customer Selected: {0}",
               customer.Name);
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-      base.OnInitialized();
+      Customers = await customerService.GetAllCustomers();
+    }
 
-      Customers.Add(
-          new Customer
-          {
-            CustomerId = 1,
-            Name = "Isadora Jarr"
-          });
-
-      Customers.Add(
-          new Customer
-          {
-            CustomerId = 2,
-            Name = "Ben Slackin"
-          });
-
-      Customers.Add(
-          new Customer
-          {
-            CustomerId = 3,
-            Name = "Doo Fuss"
-          });
+    protected async Task CustomerResetting(int customerId)
+    {
+      var originalCustomer = await customerService.GetCustomer(customerId);
+      if ( originalCustomer != null )
+      {
+        Customers[Customers.FindIndex(c => c.CustomerId == customerId)] = originalCustomer;
+        SelectedCustomer = originalCustomer;
+      }
     }
   }
 }

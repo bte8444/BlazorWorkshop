@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BlazorWorkshop.Data;
+using BlazorWorkshop.Controllers;
 
 namespace BlazorWorkshop
 {
@@ -29,6 +30,11 @@ namespace BlazorWorkshop
       services.AddRazorPages();
       services.AddServerSideBlazor();
       services.AddSingleton<WeatherForecastService>();
+
+      //services.AddScoped<ICustomerController, CustomerController>();
+      services.AddScoped<ICustomerService, CustomerService>();
+
+      services.AddControllers();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +60,7 @@ namespace BlazorWorkshop
       {
         endpoints.MapBlazorHub();
         endpoints.MapFallbackToPage("/_Host");
+        endpoints.MapControllers();
       });
     }
   }
