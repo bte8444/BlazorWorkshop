@@ -21,7 +21,13 @@ namespace BlazorWorkshop.Pages
     [Parameter]
     public EventCallback<int> CustomerResetEvent { get; set;
     }
+
+    [Parameter]
+    public EventCallback<string> AddCustomerEvent { get; set; }
+
+
     protected string DisplayMessage = "";
+    protected string NewCustomerName = "";
 
     protected async Task CustomerSelected(ChangeEventArgs args)
     {
@@ -42,6 +48,12 @@ namespace BlazorWorkshop.Pages
       {
         await CustomerResetEvent.InvokeAsync(SelectedCustomer.CustomerId);
       }
+    }
+
+    protected async Task CustomerAdding()
+    {
+      await AddCustomerEvent.InvokeAsync(NewCustomerName);
+      NewCustomerName = string.Empty;
     }
   }
 }

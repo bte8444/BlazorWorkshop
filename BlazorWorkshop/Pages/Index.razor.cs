@@ -2,6 +2,7 @@
 using BlazorWorkshop.Data;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlazorWorkshop.Pages
@@ -35,6 +36,18 @@ namespace BlazorWorkshop.Pages
         Customers[Customers.FindIndex(c => c.CustomerId == customerId)] = originalCustomer;
         SelectedCustomer = originalCustomer;
       }
+    }
+
+    protected async Task CustomerAdding(string Name)
+    {
+      var highest = Customers.OrderByDescending(i => i.CustomerId).Take(1).First();
+      var customer = new Customer()
+      {
+        CustomerId = highest.CustomerId + 1,
+        Name = Name
+      };
+      await customerService.AddCustomer(customer);
+      Customers = await customerService.GetAllCustomers();
     }
   }
 }
