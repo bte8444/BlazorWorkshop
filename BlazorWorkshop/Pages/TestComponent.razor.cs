@@ -23,8 +23,14 @@ namespace BlazorWorkshop.Pages
     }
 
     [Parameter]
+    public EventCallback<Customer> CustomerUpdatedEvent { get; set; }
+
+    [Parameter]
     public EventCallback<string> AddCustomerEvent { get; set; }
 
+
+    [Parameter]
+    public EventCallback<int> DeleteCustomerEvent { get; set; }
 
     protected string DisplayMessage = "";
     protected string NewCustomerName = "";
@@ -48,6 +54,16 @@ namespace BlazorWorkshop.Pages
       {
         await CustomerResetEvent.InvokeAsync(SelectedCustomer.CustomerId);
       }
+    }
+
+    protected async Task UpdateButtonClicked()
+    {
+      await CustomerUpdatedEvent.InvokeAsync(SelectedCustomer);
+    }
+
+    protected async Task DeleteButtonClicked()
+    {
+      await DeleteCustomerEvent.InvokeAsync(SelectedCustomer.CustomerId);
     }
 
     protected async Task CustomerAdding()

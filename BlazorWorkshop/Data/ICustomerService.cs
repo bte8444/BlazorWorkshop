@@ -9,5 +9,7 @@ namespace BlazorWorkshop.Data
     Task<List<Customer>> GetAllCustomers();
     Task<Customer> GetCustomer(int CustomerId);
     Task AddCustomer(Customer Customer);
+    Task UpdateCustomer(Customer Customer);
+    Task DeleteCustomer(int customerId);
   }
 }

@@ -62,5 +62,34 @@ namespace BlazorWorkshop.Data
       }
     }
 
+    public async Task UpdateCustomer(Customer Customer)
+    {
+      using (var http = new HttpClient())
+      {
+        var uri = new Uri(baseURL + "api/customer/"
+          + Customer.CustomerId.ToString());
+        string json = JsonConvert.SerializeObject(Customer);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var result = await http.PutAsync(uri, content);
+        if (result.StatusCode != System.Net.HttpStatusCode.OK)
+        {
+          throw new Exception("Customer was not updated");
+        }
+      }
+    }
+
+    public async Task DeleteCustomer(int customerId)
+    {
+      using (var http = new HttpClient())
+      {
+        var uri = new Uri(baseURL + "api/customer/"
+          + customerId);
+        var result = await http.DeleteAsync(uri);
+        if (result.StatusCode != System.Net.HttpStatusCode.OK)
+        {
+          throw new Exception("Customer was not deleted");
+        }
+      }
+    }
   }
 }

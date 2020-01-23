@@ -49,5 +49,28 @@ namespace BlazorWorkshop.Pages
       await customerService.AddCustomer(customer);
       Customers = await customerService.GetAllCustomers();
     }
+
+    protected async Task CustomerUpdating(Customer updatedCustomer)
+    {
+      await customerService.UpdateCustomer(updatedCustomer);
+      Customers = await customerService.GetAllCustomers();
+    }
+
+    protected async Task CustomerDeleting(int customerId)
+    {
+      int deletedCustIndex = Customers.FindIndex(c => c.CustomerId == customerId);
+
+      await customerService.DeleteCustomer(customerId);
+      Customers = await customerService.GetAllCustomers();
+
+      if ( deletedCustIndex > Customers.Count - 1)
+      {
+        SelectedCustomer = Customers[Customers.Count - 1];
+      }
+      else
+      {
+        SelectedCustomer = Customers[++deletedCustIndex];
+      }
+    }
   }
 }
